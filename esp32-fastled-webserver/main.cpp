@@ -41,7 +41,7 @@ uint8_t autoplay = 0;
 uint8_t autoplayDuration = 10;
 unsigned long autoPlayTimeout = 0;
 
-uint8_t currentPatternIndex = 0; // Index number of which pattern is current
+#define uint8_t currentPatternIndex = 0; // Index number of which pattern is current
 
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 
@@ -49,6 +49,18 @@ uint8_t power = 1;
 uint8_t brightness = 8;
 
 uint8_t speed = 30;
+
+void nextPattern()
+{
+  // add one to the current pattern number, and wrap around at the end
+  currentPatternIndex = (currentPatternIndex + 1) % patternCount;
+}
+
+void nextPalette()
+{
+  currentPaletteIndex = (currentPaletteIndex + 1) % paletteCount;
+  targetPalette = palettes[currentPaletteIndex];
+}
 
 // COOLING: How much does the air cool as it rises?
 // Less cooling = taller flames.  More cooling = shorter flames.
@@ -204,16 +216,3 @@ void loop()
   // insert a delay to keep the framerate modest
   FastLED.delay(1000 / FRAMES_PER_SECOND);
   // delay(1000 / FRAMES_PER_SECOND);
-}
-
-void nextPattern()
-{
-  // add one to the current pattern number, and wrap around at the end
-  currentPatternIndex = (currentPatternIndex + 1) % patternCount;
-}
-
-void nextPalette()
-{
-  currentPaletteIndex = (currentPaletteIndex + 1) % paletteCount;
-  targetPalette = palettes[currentPaletteIndex];
-}
